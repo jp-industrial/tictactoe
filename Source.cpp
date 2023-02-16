@@ -1,6 +1,7 @@
 //basic tic-tac-toe program, 1/23 jp-ind
 
 //v1- very fundamental mechanics- board generation, player piece assignment
+//v2- some cleanup, a little simpler. Doesn't actually place pieces.
 
 #include "c:\Users\james\Desktop\std_lib_facilities.h"
 
@@ -30,51 +31,55 @@ int turn()
 
 int main()
 {
-	//initialisation of each row.
+	//initialisation of each position.
 	char a1 = ' ', b1 = ' ', c1 = ' ';
 	char a2 = ' ', b2 = ' ', c2 = ' ';
 	char a3 = ' ', b3 = ' ', c3 = ' ';
-
-	char piece = ' ';
-	if (turn() == 0) { //player one's turn.
-		if (allocpiece() == 0)
-			piece = 'X';
-		else piece = 'O';
-	}
-	else {
-		if (allocpiece() != 0)
-			piece = 'O';
-		else piece = 'X';
-	}
-
-	int pos = 0;
-	cin >> pos;
-
-	switch (pos) {
-	case 1: { a1 = piece; break; }
-	case 2: {b1 = piece; break; }
-	case 3: {c1 = piece; break; }
-	case 4: {a2 = piece; break; }
-	case 5: {b2 = piece; break; }
-	case 6: {c2 = piece; break; }
-	case 7: {a3 = piece; break; }
-	case 8: {b3 = piece; break; }
-	case 9: {c3 = piece; break; }
-	default: {
-		cout << "Invalid position!";
-		break;
-	}
-	}
 
 	//arrangement of rows and borders into a convenient vector for printing etc.
 	vector <char> r1 = { a1, '|', b1, '|', c1, '\n',
 		a2, '|', b2, '|', c2 ,'\n',
 		a3, '|', b3, '|', c3 };
 
+	char p1piece = ' ';
+	char p2piece = ' ';
 
-	for (char things : r1) { //board state
-		cout << things;
+	switch (allocpiece()) { //player piece allocator. Should only be called once.
+	case 0: {p1piece = 'X'; p2piece = 'O'; break; }
+	case 1: {p1piece = 'O'; p2piece = 'X'; break; }
+	default: {cout << "poop"; }
 	}
+
+	char currentpiece = ' '; //determines whose turn it is, and what piece is in play.
+	switch (turn()) {
+	case 0: {currentpiece = p1piece; break; }
+	case 1: {currentpiece = p2piece; break; }
+	default: {cout << "poop"; }
+	}
+
+	int pos = 0; //initialises default board position.
+	while (true){
+		cin >> pos;
+
+		switch (pos) {
+		case 1: { a1 = currentpiece; break; }
+		case 2: {b1 = currentpiece; break; }
+		case 3: {c1 = currentpiece; break; }
+		case 4: {a2 = currentpiece; break; }
+		case 5: {b2 = currentpiece; break; }
+		case 6: {c2 = currentpiece; break; }
+		case 7: {a3 = currentpiece; break; }
+		case 8: {b3 = currentpiece; break; }
+		case 9: {c3 = currentpiece; break; }
+		default: {cout << "Invalid position!"; break; }
+		}
+
+		for (char things : r1) { //board state
+			cout << things;
+		}
+	}
+
+
 
 
 }
